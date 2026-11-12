@@ -1,0 +1,4 @@
+import mongoose from 'mongoose';
+const projectSchema=new mongoose.Schema({organization:{type:mongoose.Schema.Types.ObjectId,ref:'Organization',required:true,index:true},name:{type:String,required:true,trim:true,maxlength:100},website:{type:String,default:''},description:{type:String,default:'',maxlength:500},type:{type:String,enum:['website','api','both'],required:true},integration:{type:String,enum:['website','api'],required:true},integrationProvider:{type:String,enum:['vercel','cloudflare','opentelemetry','stellix'],required:true},integrationStatus:{type:String,enum:['pending','active','error','disconnected'],default:'pending'},retentionDays:{type:Number,default:365,min:30,max:730}},{timestamps:true});
+projectSchema.index({organization:1,name:1},{unique:true});
+export default mongoose.model('Project',projectSchema);

@@ -1,0 +1,4 @@
+import mongoose from 'mongoose';
+const membershipSchema=new mongoose.Schema({user:{type:mongoose.Schema.Types.ObjectId,ref:'User',required:true},role:{type:String,enum:['owner','admin','viewer'],required:true}},{_id:false});
+const organizationSchema=new mongoose.Schema({name:{type:String,required:true,trim:true,maxlength:100},slug:{type:String,required:true,unique:true,index:true,lowercase:true},website:{type:String,default:''},logo:{type:String,default:''},accent:{type:String,default:'#ffd957'},verificationStatus:{type:String,enum:['pending','verified','rejected'],default:'pending'},verification:{method:{type:String,enum:['dns','website','manual'],default:'dns'},token:{type:String,default:''},verifiedAt:{type:Date,default:null}},slugChangedAt:{type:Date,default:null},previousSlugs:[{type:String}],members:[membershipSchema],deletedAt:{type:Date,default:null}},{timestamps:true});
+export default mongoose.model('Organization',organizationSchema);
